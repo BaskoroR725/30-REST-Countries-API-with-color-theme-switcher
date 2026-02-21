@@ -1,20 +1,28 @@
-import './App.css'
+import { useEffect } from "react";
+import { useThemeStore } from "./store/useThemeStore";
 
 function App() {
-  return (
-    <div className="bg-white p-12 rounded-2xl shadow-lg">
-      <h1 className="text-3xl font-bold text-slate-900">
-        Mortgage Calculator
-      </h1>
-      <p className="text-slate-700 mt-4">
-        Tailwind 4 is ready to use with Plus Jakarta Sans!
-      </p>
-      <button className="mt-8 bg-lime text-slate-900 px-6 py-3 rounded-full font-bold hover:bg-opacity-80 transition-all">
-        Test Button
-      </button>
-    </div>
-  )
-}
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
+  return (
+    <main className="min-h-screen bg-bg-light dark:bg-bg-dark text-text-light dark:text-text-dark">
+      {/* nav later */}
+      <h1 className="text-2xl pt-10 text-center">
+        REST Countries API is Ready!
+      </h1>
+      <p className="text-center">
+        Theme is currently: {isDarkMode ? "🌙 Dark" : "☀️ Light"}
+      </p>
+    </main>
+  );
+}
 
 export default App;

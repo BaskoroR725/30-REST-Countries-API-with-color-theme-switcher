@@ -1,43 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors from style-guide.md */
-  --color-lime: hsl(61, 70%, 52%);
-  --color-red: hsl(4, 69%, 50%);
-  --color-white: hsl(0, 0%, 100%);
-  --color-slate-100: hsl(202, 86%, 94%);
-  --color-slate-300: hsl(203, 41%, 72%);
-  --color-slate-500: hsl(200, 26%, 54%);
-  --color-slate-700: hsl(200, 24%, 40%);
-  --color-slate-900: hsl(202, 55%, 16%);
+  /* Colors dari style-guide.md */
+  --color-bg-light: hsl(0, 0%, 98%);
+  --color-text-light: hsl(200, 15%, 8%);
+  --color-elements-light: hsl(0, 0%, 100%);
+  --color-input-light: hsl(0, 0%, 52%);
 
-  /* Custom Font Family */
-  --font-jakarta: "Plus Jakarta Sans", sans-serif;
-}
+  --color-bg-dark: hsl(207, 26%, 17%);
+  --color-text-dark: hsl(0, 0%, 100%);
+  --color-elements-dark: hsl(209, 23%, 22%);
 
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  src: url('../assets/fonts/PlusJakartaSans-VariableFont_wght.ttf') format('truetype');
-  font-weight: 500 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  src: url('../assets/fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf') format('truetype');
-  font-weight: 500 700;
-  font-style: italic;
+  --font-nunito: "Nunito Sans", sans-serif;
 }
 
 :root {
-  font-family: var(--font-jakarta);
-  background-color: var(--color-slate-100);
-  color: var(--color-slate-900);
+  font-family: var(--font-nunito);
+  background-color: var(--color-bg-light);
+  color: var(--color-text-light);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Selector dark mode yang dipicu oleh class di body/html */
+.dark {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-dark);
 }
 
 body {
+  margin: 0;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
