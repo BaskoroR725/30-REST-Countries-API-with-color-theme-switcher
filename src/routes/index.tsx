@@ -97,56 +97,53 @@ function HomeComponent() {
       {/* Countries Grid */}
       {!isLoading && !error && (
         <>
-          <motion.div
-            layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredCountries.map((country, index) => (
-                <motion.div
-                  key={country.alpha3Code}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{
-                    duration: 0.3,
-                    delay: Math.min(index * 0.02, 0.5),
-                  }}
-                >
-                  <Link
-                    to="/country/$countryCode"
-                    params={{ countryCode: country.alpha3Code }}
-                    className="block h-full bg-elements-light dark:bg-elements-dark shadow-md rounded-md overflow-hidden cursor-pointer hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
-                  >
-                    <img
-                      src={country.flags.png}
-                      alt={country.name}
-                      className="w-full h-40 object-cover"
-                    />
-                    <div className="p-6 pb-10">
-                      <h3 className="font-extrabold text-lg mb-4 truncate">
-                        {country.name}
-                      </h3>
-                      <div className="space-y-1 text-sm">
-                        <p>
-                          <span className="font-semibold">Population:</span>{" "}
-                          {country.population.toLocaleString()}
-                        </p>
-                        <p>
-                          <span className="font-semibold">Region:</span>{" "}
-                          {country.region}
-                        </p>
-                        <p>
-                          <span className="font-semibold">Capital:</span>{" "}
-                          {country.capital || "N/A"}
-                        </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={searchQuery + regionFilter}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="contents"
+              >
+                {filteredCountries.map((country) => (
+                  <div key={country.alpha3Code}>
+                    <Link
+                      to="/country/$countryCode"
+                      params={{ countryCode: country.alpha3Code }}
+                      className="block h-full bg-elements-light dark:bg-elements-dark shadow-md rounded-md overflow-hidden cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-200"
+                    >
+                      <img
+                        src={country.flags.png}
+                        alt={country.name}
+                        className="w-full h-40 object-cover"
+                      />
+                      <div className="p-6 pb-10">
+                        <h3 className="font-extrabold text-lg mb-4 truncate">
+                          {country.name}
+                        </h3>
+                        <div className="space-y-1 text-sm">
+                          <p>
+                            <span className="font-semibold">Population:</span>{" "}
+                            {country.population.toLocaleString()}
+                          </p>
+                          <p>
+                            <span className="font-semibold">Region:</span>{" "}
+                            {country.region}
+                          </p>
+                          <p>
+                            <span className="font-semibold">Capital:</span>{" "}
+                            {country.capital || "N/A"}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+                    </Link>
+                  </div>
+                ))}
+              </motion.div>
             </AnimatePresence>
-          </motion.div>
+          </div>
 
           {filteredCountries.length === 0 && (
             <div className="text-center py-20">

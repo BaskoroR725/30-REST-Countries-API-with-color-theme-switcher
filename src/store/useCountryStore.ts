@@ -26,6 +26,26 @@ const filterLogic = (countries: Country[], query: string, region: string) => {
   });
 };
 
+interface RestCountryApi {
+  name: {
+    common: string;
+    nativeName?: Record<string, { common: string }>;
+  };
+  population: number;
+  region: string;
+  subregion?: string;
+  capital?: string[];
+  flags: {
+    svg: string;
+    png: string;
+  };
+  cca3: string;
+  currencies?: Record<string, { name: string; symbol: string }>;
+  languages?: Record<string, string>;
+  borders?: string[];
+  tld?: string[];
+}
+
 export const useCountryStore = create<CountryState>((set) => ({
   countries: [],
   filteredCountries: [],
@@ -37,11 +57,10 @@ export const useCountryStore = create<CountryState>((set) => ({
   fetchCountries: async () => {
     set({ isLoading: true, error: null });
     try {
-      // Menentukan field yang dibutuhkan (maksimal 10 fields untuk /all endpoint di restcountries.com saat ini)
-      const fields =
-        "name,capital,region,subregion,population,flags,cca3,currencies,languages,borders";
+      // REST Countries API sekarang WAJIB menggunakan parameter fields (maks 10)
+      // Kita drop 'tld' karena kurang penting dibanding 'subregion'
       const response = await fetch(
-        `https://restcountries.com/v3.1/all?fields=${fields}`,
+        "https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,flags,cca3,currencies,languages,borders",
       );
 
       if (!response.ok) {
@@ -51,25 +70,30 @@ export const useCountryStore = create<CountryState>((set) => ({
         );
       }
 
-      const data = await response.json();
+      const data: RestCountryApi[] = await response.json();
 
       // Map data dari v3.1 ke format Country lama agar tidak merusak komponen lain
-      const mappedCountries: Country[] = data.map((item: any) => ({
-        name: item.name.common,
-        nativeName: item.name.nativeName
-          ? (Object.values(item.name.nativeName)[0] as any).common
-          : item.name.common,
+      const mappedCountries: Country[] = data.map((item) => ({
+        name: item.name?.common || "Unknown",
+        nativeName:
+          Object.values(item.name?.nativeName || {})[0]?.common ||
+          item.name?.common ||
+          "Unknown",
         population: item.population,
         region: item.region,
         subregion: item.subregion || "",
         capital: item.capital?.[0] || "",
         topLevelDomain: item.tld || [],
         currencies: item.currencies
-          ? Object.values(item.currencies).map((c: any) => ({ name: c.name }))
+          ? Object.entries(item.currencies).map(([code, c]) => ({
+              code,
+              name: c.name,
+              symbol: c.symbol,
+            }))
           : [],
         languages: item.languages
-          ? Object.values(item.languages).map((name: any) => ({
-              name: name as string,
+          ? Object.values(item.languages).map((name) => ({
+              name,
             }))
           : [],
         borders: item.borders || [],

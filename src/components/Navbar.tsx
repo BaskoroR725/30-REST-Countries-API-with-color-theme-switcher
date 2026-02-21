@@ -17,29 +17,33 @@ export const Navbar = () => {
         </Link>
 
         <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={toggleTheme}
-          className="flex items-center gap-2 font-semibold text-sm md:text-base text-text-light dark:text-text-dark hover:bg-black/5 dark:hover:bg-white/5 px-3 py-2 rounded-md transition-all"
+          className="flex items-center gap-2 font-semibold text-sm md:text-base text-text-light dark:text-text-dark hover:bg-black/5 dark:hover:bg-white/10 px-4 py-2 rounded-lg transition-all border border-transparent dark:border-white/5 shadow-sm active:shadow-inner"
           aria-label="Toggle dark mode"
         >
-          <AnimatePresence mode="wait" initial={false}>
+          <AnimatePresence mode="wait">
             <motion.div
               key={isDarkMode ? "dark" : "light"}
-              initial={{ y: -20, opacity: 0, rotate: -90 }}
-              animate={{ y: 0, opacity: 1, rotate: 0 }}
-              exit={{ y: 20, opacity: 0, rotate: 90 }}
-              transition={{ duration: 0.2 }}
+              initial={{ y: 5, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -5, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
               className="flex items-center gap-2"
             >
               {isDarkMode ? (
                 <>
-                  <Sun size={18} fill="currentColor" />
+                  <Sun
+                    size={18}
+                    className="text-amber-400"
+                    fill="currentColor"
+                  />
                   <span>Light Mode</span>
                 </>
               ) : (
                 <>
-                  <Moon size={18} />
+                  <Moon size={18} className="text-slate-700" />
                   <span>Dark Mode</span>
                 </>
               )}

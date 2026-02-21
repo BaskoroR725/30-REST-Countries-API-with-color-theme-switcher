@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Colors dari style-guide.md */
   --color-bg-light: hsl(0, 0%, 98%);
@@ -16,17 +18,6 @@
 
 :root {
   font-family: var(--font-nunito);
-  background-color: var(--color-bg-light);
-  color: var(--color-text-light);
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-}
-
-/* Selector dark mode yang dipicu oleh class di body/html */
-.dark {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-dark);
 }
 
 body {
