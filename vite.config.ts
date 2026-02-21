@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/30-REST-Countries-API-with-color-theme-switcher/",
   plugins: [react(), tailwindcss()],
   test: {
     globals: true,
