@@ -6,9 +6,10 @@ import './index.css';
 // Import route tree 
 import { Route as rootRoute } from './routes/__root';
 import { Route as indexRoute } from './routes/index';
+import { Route as detailRoute } from './routes/country.$countryCode';
 
 // Buat route tree
-const routeTree = rootRoute.addChildren([indexRoute]);
+const routeTree = rootRoute.addChildren([indexRoute, detailRoute]);
 
 // Buat instance router
 const router = createRouter({ routeTree });
